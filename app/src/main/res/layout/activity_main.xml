@@ -10,6 +10,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <FrameLayout
+            android:id="@+id/banner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <Button
             android:id="@+id/btn_init"
             android:layout_width="match_parent"
@@ -33,6 +37,58 @@
             android:layout_marginRight="8dp"
             android:gravity="center"
             android:text="Video"
+            android:textColor="#3399cc"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_interstitial"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="InterstitialAd"
+            android:textColor="#3399cc"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_native"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="Native"
+            android:textColor="#3399cc"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_banner"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="Banner"
+            android:textColor="#3399cc"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_interactive"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="InteractiveAd"
             android:textColor="#3399cc"
             android:textSize="14sp" />
 

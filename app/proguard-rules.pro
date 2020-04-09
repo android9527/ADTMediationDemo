@@ -19,3 +19,27 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+
+ -dontwarn com.adtiming.mediationsdk.**.*
+ -dontwarn com.mopub.**.*
+ -dontwarn com.aiming.mdt.**.*
+ -dontskipnonpubliclibraryclasses
+ #AdTiming
+ -keep class com.adtiming.mediationsdk.mediation.**{*;}
+ -keep class com.mopub.**{*;}
+ -keep class com.aiming.mdt.**{*;}
+ -keep class com.adtiming.mediationsdk.mobileads.**{*;}
+
+ #R
+ -keepclassmembers class **.R$* {
+ public static <fields>;
+ }
+ -keepattributes *Annotation*
+ -keepattributes InnerClasses
+ -keepnames class * implements android.os.Parcelable {
+ public static final ** CREATOR;
+}
+
+-keep class com.applovin.** { *;}
