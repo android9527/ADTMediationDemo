@@ -1,8 +1,8 @@
 package com.android.adtdemo;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
-import androidx.annotation.Nullable;
 
 /**
  * @author chenfeiyue

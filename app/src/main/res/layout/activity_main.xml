@@ -10,10 +10,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/banner_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
         <Button
             android:id="@+id/btn_init"
             android:layout_width="match_parent"
@@ -91,7 +87,14 @@
             android:text="InteractiveAd"
             android:textColor="#3399cc"
             android:textSize="14sp" />
-
+        <FrameLayout
+            android:id="@+id/banner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <FrameLayout
+            android:id="@+id/nativeAdParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </ScrollView>

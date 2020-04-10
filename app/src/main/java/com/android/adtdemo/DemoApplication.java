@@ -1,6 +1,6 @@
 package com.android.adtdemo;
 
-import androidx.multidex.MultiDexApplication;
+import android.support.multidex.MultiDexApplication;
 
 import com.adtiming.mediationsdk.utils.DeveloperLog;
 import com.squareup.leakcanary.LeakCanary;

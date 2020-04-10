@@ -1,9 +1,11 @@
 package com.android.adtdemo;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+
+import com.adtiming.mediationsdk.AdTimingAds;
 
 /**
  * @author chenfeiyue
@@ -18,11 +20,12 @@ public class BaseActvity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        AdTimingAds.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
+        AdTimingAds.onPause(this);
     }
 }

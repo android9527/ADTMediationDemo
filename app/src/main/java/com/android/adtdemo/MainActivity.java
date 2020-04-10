@@ -1,13 +1,15 @@
 package com.android.adtdemo;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adtiming.mediationsdk.AdTimingAds;
 import com.adtiming.mediationsdk.InitCallback;
@@ -17,9 +19,12 @@ import com.adtiming.mediationsdk.interactive.AdTimingInteractiveAd;
 import com.adtiming.mediationsdk.interactive.InteractiveAdListener;
 import com.adtiming.mediationsdk.interstitial.AdTimingInterstitialAd;
 import com.adtiming.mediationsdk.interstitial.InterstitialAdListener;
+import com.adtiming.mediationsdk.nativead.AdIconView;
 import com.adtiming.mediationsdk.nativead.AdInfo;
+import com.adtiming.mediationsdk.nativead.MediaView;
 import com.adtiming.mediationsdk.nativead.NativeAd;
 import com.adtiming.mediationsdk.nativead.NativeAdListener;
+import com.adtiming.mediationsdk.nativead.NativeAdView;
 import com.adtiming.mediationsdk.utils.error.AdTimingError;
 import com.adtiming.mediationsdk.utils.model.Scene;
 import com.adtiming.mediationsdk.video.AdTimingRewardedVideo;
@@ -29,13 +34,16 @@ import com.adtiming.mediationsdk.video.RewardedVideoListener;
  * @author chenfeiyue
  * @since [历史 创建日期:2020/4/9]
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActvity implements View.OnClickListener {
 
     FrameLayout bannerLayout;
 
     BannerAd bannerAd;
 
     NativeAd nativeAd;
+
+    private NativeAdView nativeAdView;
+    private FrameLayout nativeAdParent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,10 +56,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_banner).setOnClickListener(this);
         findViewById(R.id.btn_interactive).setOnClickListener(this);
         bannerLayout = findViewById(R.id.banner_layout);
+        nativeAdParent = findViewById(R.id.nativeAdParent);
         setVideoListener();
+        nativeAdView = new NativeAdView(this);
+//        AdRequest.Builder.addTestDevice("98203978D7423F312839081A0B4EA435")
     }
 
     private void initSdk() {
+//        MobileAds.initialize(this, "ca-app-pub-1893299139380965~7586304539");
+
         AdLog.LogE("---------------");
         String appKey = "1Xc9hP0H7QgMDkHfHBtlx0bFGszWFVy9";
         AdTimingAds.init(this, appKey, new InitCallback() {
@@ -121,6 +134,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //native ad load success
                 AdLog.LogE("--------------CTA: " + info.getCallToActionText() + ", desc:" + info.getDesc()
                         + ",title: " + info.getTitle() + ", rate:" + info.getStarRating());
+
+
+                showNative(info);
+
             }
 
             /**
@@ -332,17 +349,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void video() {
         AdLog.LogE("---------" + AdTimingRewardedVideo.isSceneCapped("Default_Scene"));
-        Scene default_scene = AdTimingRewardedVideo.getSceneInfo("Default_Scene");
+        Scene default_scene = AdTimingRewardedVideo.getSceneInfo("test");
 
         String scene = default_scene == null ? "" : default_scene.toString();
 
         AdLog.LogE(scene);
 
         if (AdTimingRewardedVideo.isReady()) {
-            AdTimingRewardedVideo.showAd();
+            AdTimingRewardedVideo.showAd("Default_Scene");
         } else {
             AdTimingRewardedVideo.loadAd();
         }
+
     }
 
     private void interstitial() {
@@ -401,6 +419,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             AdTimingInteractiveAd.showAd();
         } else {
             AdTimingInteractiveAd.loadAd();
+        }
+    }
+
+    private void showNative(AdInfo adInfo) {
+        if ((nativeAdView != null) && (adInfo != null)) {
+            nativeAdView.removeAllViews();
+            View adView = View.inflate(this, R.layout.native_ad_layout2, null);
+            TextView title = adView.findViewById(R.id.ad_title);
+            title.setText(adInfo.getTitle());
+            TextView text = adView.findViewById(R.id.ad_text);
+            text.setText(adInfo.getDesc());
+            Button btn = adView.findViewById(R.id.ad_btn);
+            btn.setText(adInfo.getCallToActionText());
+
+            MediaView mediaView = adView.findViewById(R.id.ad_media);
+
+            AdIconView iconMediaView = adView.findViewById(R.id.ad_icon_media);
+
+            nativeAdParent.removeAllViews();
+            nativeAdView.addView(adView);
+
+            nativeAdView.setTitleView(title);
+            nativeAdView.setDescView(text);
+            nativeAdView.setAdIconView(iconMediaView);
+            nativeAdView.setMediaView(mediaView);
+            nativeAdView.setCallToActionView(btn);
+
+            nativeAd.registerNativeAdView(nativeAdView);
+
+            adView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+            adView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+            layoutParams.addRule(Gravity.CENTER);
+            nativeAdParent.addView(nativeAdView, layoutParams);
+        } else {
+            Toast.makeText(this, "-native ad 加载中--", Toast.LENGTH_SHORT).show();
         }
     }
 }
